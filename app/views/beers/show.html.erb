@@ -1,18 +1,25 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
-  <%= @beer.name %>
+  	<h2><%= @beer.name %></h2>
 </p>
 
 <p>
-  <strong>Style:</strong>
-  <%= @beer.style %>
+  	<i>Style: <%= @beer.style %></i>
 </p>
 
 <p>
-  <strong>Brewery:</strong>
-  <%= @beer.brewery_id %>
+	<i>Brewery: <%= @beer.brewery_id %></i>
+</p>
+
+<p>
+	<% if @beer.ratings.empty? %>
+ 		beer has not yet been rated!
+	<% else %>
+ 		Number of ratings: <%= @beer.ratings.count %> 
+ 		Average: 
+	<% end %>
+
 </p>
 
 <%= link_to 'Edit', edit_beer_path(@beer) %> |
