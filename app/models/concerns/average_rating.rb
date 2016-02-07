@@ -3,7 +3,8 @@ module AverageRating
 	extend ActiveSupport::Concern
 
 	def average_rating
-		return ratings.sum(:score) / ratings.count
-	end
+    	return 0 if ratings.empty?
+    	ratings.map{ |r| r.score }.sum / ratings.count.to_f
+  	end
 
 end
