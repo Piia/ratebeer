@@ -1,0 +1,17 @@
+language: ruby
+rvm:
+- 2.3.0
+script:
+- bundle exec rake db:migrate --trace
+- RAILS_ENV=test bundle exec rake db:migrate --trace
+- bundle exec rake db:test:prepare
+- bundle exec rspec -fd spec/
+deploy:
+  provider: heroku
+  api_key:
+    secure: DQhJhNkcbCBCvNmJv9m265DW1KtV5OvZ7UNiwJ8TmrS5xUw0SIQIDPu7PnrFEppVAosCvsSkf0IuTs4sPtbaNylbP8nnZalZMWFknq/nMm0Z8kV9gV7F3uxNM0uz/at7odGIOXsbyxUipXtnGx1l4VLHSEYJTk+deRaeMbBukFElx11d+E7y36onG0lL8rIFYV7HvWBp12v2Z17DTa/uDxIaWXIC6loDTTPdO8LBigA2V6/dOUKUjDnyCi4NeBxjYersnF3xdCqLnrB/V46OYBTk3edTxnUTUNoNau6qeHNXmoe/QhuEC5BMV/aTMNwK6df/zTLb1iWdReAnqEvjfR2atFTaV3rfNMrs2jR3PZiJV9YQ6EV/vE8EAlupnxjzcg0iis9RrSiOFf5HTgaPuRobOqC8JGnaugfq1h8BybYj1r1mydrOaBYdC5Rvfpza26jJF/ikgFdK7qKegYBgr3tTGTtYIBtsjMAc/U4jFnzHC+p1hCmDasLYlFuF/9v9r7RM50HvDmLNkctteoabgFluQL9NwAR+fy5MyHXM/6JnPk7ZDCAMbjhoaR7gOhl8+sAtbk7FyDquvrVx27zJN6VbhBZ7R1GZwB36mCaReLpyOLjit3EnGVXVnICVGJ/r/bH9u48WCrGPETFIgnhXiNlb6y/RdvOKHLBmubbqI3I=
+  strategy: git
+  run: "rake db:migrate"
+  app: piias-ratebeer
+  on:
+    repo: Piia/ratebeer

@@ -35,16 +35,20 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 ruby '2.3.0'
 
 gem 'bcrypt', '~> 3.1.7'
+gem 'rspec-its'
+gem 'simplecov', require: false
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem "better_errors"
+  gem 'rspec-rails', '~> 3.0'
+  gem 'sqlite3'
 end
 
-group :development, :test do
-  gem "better_errors"
-
-  #...
+group :test do
+  gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'launchy'
 end
 
 
@@ -54,10 +58,6 @@ group :development do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-end
-
-group :development, :test do
-  gem 'sqlite3'
 end
 
 group :production do

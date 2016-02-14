@@ -15,7 +15,7 @@ class MembershipsController < ApplicationController
   # GET /memberships/new
   def new
     @membership = Membership.new
-    @beer_clubs = BeerClub.all
+    @beer_clubs = BeerClub.all.reject{ |club| current_user.in? club.members }
   end
 
   # GET /memberships/1/edit
@@ -26,15 +26,27 @@ class MembershipsController < ApplicationController
   # POST /memberships.json
   def create
 
-    @membership = Membership.new params.require(:membership).permit(:beer_club_id)
+    #@membership = Membership.new params.require(:membership).permit(:beer_club_id)
 
-    if @membership.save
+    #if @membership.save
+    #  current_user.memberships << @membership
+    #  redirect_to user_path current_user
+    #else
+    #  @beer_clubs = BeerClub.all
+    #  render :new
+    #end
+
+    @membership = Membership.new(membership_params)
+    beer_club = BeerClub.find membership_params[:beer_club_id]
+    if not current_user.in? beer_club.members and @membership.save
       current_user.memberships << @membership
-      redirect_to user_path current_user
+      @membership.save
+      redirect_to @membership.user, notice: "You've joined to #{@membership.beer_club.name}"
     else
       @beer_clubs = BeerClub.all
       render :new
     end
+
   end
 
   # PATCH/PUT /memberships/1

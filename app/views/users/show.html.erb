@@ -8,7 +8,10 @@
 	<% if @user.ratings.empty? %>
  		Has not yet made any ratings
 	<% else %>
- 		Has <%= pluralize(@user.ratings.count, "rating") %>, average <%= @user.average_rating %>
+ 		Has <%= pluralize(@user.ratings.count, "rating") %>, average <%= @user.average_rating %> <br><br>
+ 		Favorite beer: <%= @user.favorite_beer.name %> <br>
+ 		Favorite style: <%= @user.favorite_style %> <br>
+ 		Favorite brewery: <%= @user.favorite_brewery %>
 	<% end %>
 
 </p>
@@ -40,6 +43,6 @@
 </p>
 
 <% if @user == current_user %>
-<%= link_to 'Edit', edit_user_path(@user) %> | 
+<%= link_to 'Edit', edit_user_path(@user) %> <br>
 <%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' } %>
 <% end %>
