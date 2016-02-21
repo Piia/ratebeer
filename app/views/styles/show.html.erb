@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <h2><%= @style.name %></h2>
+</p>
+
+<p>
+  <%= @style.description %>
+</p>
+
+<p> Number of beers: <%= @style.beers.count %> </p>
+<p>
+  <ul>
+ <% @style.beers.each do |beer| %>
+      <li><%= link_to beer.name, beer_path(beer.id) %></li>
+ <% end %>
+  </ul>
+</p>
+
+<p>
+  <% if @style.ratings.empty? %>
+    Beers of this style have not yet been rated!
+  <% else %>
+    Has <%= pluralize(@style.ratings.count, "rating") %>, average <%= @style.average_rating %>
+  <% end %>
+
+</p>
+
+<%= link_to('Edit', edit_style_path(@style) ) if current_user %> <br>
+<%= link_to('Destroy', @style, method: :delete, data: { confirm: 'Are you sure?' } ) if current_user %>

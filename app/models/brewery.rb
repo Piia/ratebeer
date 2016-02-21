@@ -9,7 +9,7 @@ class Brewery < ActiveRecord::Base
   has_many :ratings, through: :beers
 
   def validate_year
-    if year > Time.now.year or year < 1042
+    if not year or year > Time.now.year or year < 1042
       errors.add(:year, "must be between 1042 and this year")
     end
   end

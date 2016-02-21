@@ -44,6 +44,7 @@ RSpec.describe User, type: :model do
 
 	describe "favorite beer" do
     let(:user){FactoryGirl.create(:user) }
+    let(:style){FactoryGirl.create :style}
 
 		it "has method for determining the favorite_beer" do
 	    	expect(user).to respond_to(:favorite_beer)
@@ -54,13 +55,13 @@ RSpec.describe User, type: :model do
 	  	end
 
 	  	it "is the only rated if only one rating" do
-      		beer = create_beer(user, "IPA", "noname", 10)
+      		beer = create_beer(user, style, "noname", 10)
       		expect(user.favorite_beer).to eq(beer)
     	end
 
     	it "is the one with highest rating if several rated" do
-      		create_beers(user, "IPA", "noname", 10, 20, 15, 7, 9)
-      		best = create_beer(user, "IPA", "noname", 40)
+      		create_beers(user, style, "noname", 10, 20, 15, 7, 9)
+      		best = create_beer(user, style, "noname", 40)
 
       		expect(user.favorite_beer).to eq(best)
     	end
@@ -79,14 +80,17 @@ RSpec.describe User, type: :model do
 	  	end
 
 	  	it "is the one style when there is only one rating" do
-      		beer = create_beer(user, "IPA", "noname", 10)
-      		expect(user.favorite_style).to eq("IPA")
+	  		style = FactoryGirl.create :style
+      		beer = create_beer(user, style, "noname", 10)
+      		expect(user.favorite_style.name).to eq("Tyyli")
     	end
 
     	it "is highest rated style when there are many ratings" do
-    		create_beers(user, "IPA", "noname", 10, 20, 15, 7, 9)
-			create_beers(user, "Porter", "noname", 1, 2, 1, 7, 9)
-			expect(user.favorite_style).to eq("IPA")
+    		style1 = FactoryGirl.create :style
+    		style2 = FactoryGirl.create :style, name:"IPA", description:"gjjhkh"
+    		create_beers(user, style2, "noname", 10, 20, 15, 7, 9)
+			create_beers(user, style1, "noname", 1, 2, 1, 7, 9)
+			expect(user.favorite_style.name).to eq("IPA")
     	end
 
 	end
@@ -102,13 +106,15 @@ RSpec.describe User, type: :model do
 	  	end
 
 	  	it "is the one brewery when there is only one rating" do
-      		beer = create_beer(user, "IPA", "noname", 10)
+	  		style = FactoryGirl.create :style
+      		beer = create_beer(user, style, "noname", 10)
       		expect(user.favorite_brewery).to eq("noname")
     	end
 
     	it "is highest rated brewery when there are many ratings" do
-    		create_beers(user, "IPA", "Koff", 10, 20, 15, 7, 9)
-    		create_beers(user, "IPA", "BrewDog", 1, 2, 1, 7, 9)
+    		style = FactoryGirl.create :style
+    		create_beers(user, style, "Koff", 10, 20, 15, 7, 9)
+    		create_beers(user, style, "BrewDog", 1, 2, 1, 7, 9)
     		expect(user.favorite_brewery).to eq("Koff")
     	end
 

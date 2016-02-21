@@ -37,6 +37,7 @@ ruby '2.3.0'
 gem 'bcrypt', '~> 3.1.7'
 gem 'rspec-its'
 gem 'simplecov', require: false
+gem 'httparty'
 
 group :development, :test do
   gem 'byebug'
@@ -49,6 +50,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'capybara'
   gem 'launchy'
+  gem 'webmock'
 end
 
 

@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
   		styles = {}
   		beers.each {|beer| styles[beer.style] = 0 if not styles.include?(beer.style)}
   		ratings.each{|r| styles[r.beer.style] += r.score}
-  		styles.key(styles.values.max).to_s
+  		styles.key(styles.values.max)
   	end
 
   	def favorite_brewery

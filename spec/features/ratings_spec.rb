@@ -4,8 +4,11 @@ include Helpers
 
 describe "Rating" do
   let!(:brewery) { FactoryGirl.create :brewery, name:"Koff" }
-  let!(:beer1) { FactoryGirl.create :beer, name:"iso 3", brewery:brewery }
-  let!(:beer2) { FactoryGirl.create :beer, name:"Karhu", brewery:brewery }
+  let!(:style1) { FactoryGirl.create :style}
+  let!(:style2) { FactoryGirl.create :style, name:"lager"}
+  let!(:style3) { FactoryGirl.create :style, name:"porter"}
+  let!(:beer1) { FactoryGirl.create :beer, name:"iso 3", brewery:brewery, style: style1 }
+  let!(:beer2) { FactoryGirl.create :beer, name:"Karhu", brewery:brewery, style: style2 }
   let!(:user) { FactoryGirl.create :user }
 
   before :each do
@@ -77,12 +80,12 @@ describe "Rating" do
 
     it "style" do
       # beer1 on Lager
-      beer3 = FactoryGirl.create(:beer, name:"Karhu", style:"IPA", brewery:brewery)
+      beer3 = FactoryGirl.create(:beer, name:"Karhu", style: style3, brewery:brewery)
       FactoryGirl.create(:rating, score: 10, user: user, beer: beer1)
       FactoryGirl.create(:rating, score: 5, user: user, beer: beer3)
 
       visit user_path(user)
-      expect(page).to have_content "Favorite style: #{beer1.style}"
+      expect(page).to have_content "Favorite style: #{beer1.style.name}"
     end
 
     it "brewery" do
