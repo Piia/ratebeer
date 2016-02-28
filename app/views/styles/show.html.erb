@@ -8,23 +8,31 @@
   <%= @style.description %>
 </p>
 
+<p>
+  <% if @style.ratings.empty? %>
+    Beers of this style have not yet been rated!
+  <% else %>
+    Has <%= pluralize(@style.ratings.count, "rating") %>, average <%= round(@style.average_rating) %>
+  <% end %>
+
+</p>
+
 <p> Number of beers: <%= @style.beers.count %> </p>
 <p>
-  <ul>
+  <div class="list-group">
  <% @style.beers.each do |beer| %>
-      <li><%= link_to beer.name, beer_path(beer.id) %></li>
+      <button type="button" class="list-group-item"><%= link_to beer.name, beer_path(beer.id) %></button>
  <% end %>
-  </ul>
+  </div>
 </p>
 
 <p>
   <% if @style.ratings.empty? %>
     Beers of this style have not yet been rated!
   <% else %>
-    Has <%= pluralize(@style.ratings.count, "rating") %>, average <%= @style.average_rating %>
+    Has <%= pluralize(@style.ratings.count, "rating") %>, average <%= round(@style.average_rating) %>
   <% end %>
 
 </p>
 
-<%= link_to('Edit', edit_style_path(@style) ) if current_user %> <br>
-<%= link_to('Destroy', @style, method: :delete, data: { confirm: 'Are you sure?' } ) if current_user %>
+<%= edit_and_destroy_buttons(@style) %>

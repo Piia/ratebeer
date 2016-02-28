@@ -4,12 +4,12 @@
 
 <p> Number of styles: <%= @styles.count %> </p>
 
-<ul>
+<div class="list-group">
  <% @styles.each do |style| %>
-   <li><%= link_to style.name, style %></li>
+   <button type="button" class="list-group-item"><%= link_to style.name, style %></button>
  <% end %>
-</ul>
+</div>
 
 <br>
 
-<%= link_to('New Style', new_style_path) if current_user %>
+<%= link_to('New Style', new_style_path, class:"btn btn-primary") if current_user %>

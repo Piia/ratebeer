@@ -1,17 +1,22 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <h2><%= @user.username %></h2>
+  	<h2><%= @user.username %></h2> 
+  	<% if current_user.admin %>
+        <% unless @user.active %>
+            <button class="btn btn-primary; pointer-events: none">account frozen</button>
+    <% end %>
+        <% end %>
 </p>
 
 <p>
 	<% if @user.ratings.empty? %>
  		Has not yet made any ratings
 	<% else %>
- 		Has <%= pluralize(@user.ratings.count, "rating") %>, average <%= @user.average_rating %> <br><br>
+ 		Has <%= pluralize(@user.ratings.count, "rating") %>, average <%= round(@user.average_rating) %> <br><br>
  		Favorite beer: <%= @user.favorite_beer.name %> <br>
  		Favorite style: <%= @user.favorite_style.name %> <br>
- 		Favorite brewery: <%= @user.favorite_brewery %>
+ 		Favorite brewery: <%= @user.favorite_brewery.name %>
 	<% end %>
 
 </p>
@@ -31,18 +36,24 @@
 <p>
 	<strong>Ratings</strong>
 
-	<ul>
+	<div class="list-group">
  		<% @user.ratings.each do |rating| %>
-   			<li><%= rating.beer.name %> <%= rating.score %> 
+   			<button type="button" class="list-group-item"><%= rating.beer.name %> <%= rating.score %> 
    				<% if @user == current_user %>
    					<%= link_to 'delete', rating, method: :delete, data: { confirm: 'Are you sure?'}%>
    				<% end %>
-   			</li>
+   			</button>
  		<% end %>
- 	</ul>
+ 	</div>
 </p>
 
+<% if current_user.admin %>
+	<% if @user.active %>
+	<%= link_to "Freeze account", toggle_activity_user_path(@user.id), method: :post, class: "btn btn-primary" %>
+	<% else %>
+	<%= link_to "Activate account", toggle_activity_user_path(@user.id), method: :post, class: "btn btn-primary" %>
+	<% end %>
+<% end %>
 <% if @user == current_user %>
-<%= link_to 'Edit', edit_user_path(@user) %> <br>
-<%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' } %>
+	<%= edit_and_destroy_buttons(@user) %>
 <% end %>

@@ -36,8 +36,15 @@ class User < ActiveRecord::Base
   	def favorite_brewery
   		return nil if ratings.empty?
   		breweries = {}
-  		beers.each {|beer| breweries[beer.brewery.name] = 0 if not breweries.include?(beer.brewery.name)}
-  		ratings.each{|r| breweries[r.beer.brewery.name] += r.score}
-  		breweries.key(breweries.values.max).to_s
+  		beers.each {|beer| breweries[beer.brewery] = 0 if not breweries.include?(beer.brewery)}
+  		ratings.each{|r| breweries[r.beer.brewery] += r.score}
+  		breweries.key(breweries.values.max)
   	end
+
+    def self.top(n)
+      sorted_by_rating_count_in_desc_order = User.all.sort_by{ |b| -(b.ratings.count||0) }
+      sorted_by_rating_count_in_desc_order.first n
+    end
+
+
 end

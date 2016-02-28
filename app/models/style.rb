@@ -8,4 +8,10 @@ class Style < ActiveRecord::Base
   	validates :name, presence: true
   	validates :description, presence: true
 
+
+  	def self.top(n)
+		sorted_by_rating_in_desc_order = Style.all.sort_by{ |b| -(b.average_rating||0) }
+	    sorted_by_rating_in_desc_order.first n
+	end
+
 end

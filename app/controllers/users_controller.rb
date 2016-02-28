@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_that_admin, only: [:toggle_activity]
 
   # GET /users
   # GET /users.json
@@ -19,6 +20,15 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+  end
+
+  def toggle_activity
+    user = User.find(params[:id])
+    user.update_attribute :active, (not user.active)
+
+    new_status = user.active? ? "active" : "frozen"
+
+    redirect_to :back, notice:"User account status changed to #{new_status}"
   end
 
   # POST /users

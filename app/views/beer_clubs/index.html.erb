@@ -4,7 +4,7 @@
 
 <p> Number of beer clubs: <%= @beer_clubs.count %> </p>
 
-<table>
+<table class="table table-hover">
   <thead>
     <tr>
       <th>Name</th>
@@ -29,4 +29,4 @@
 
 <br>
 
-<%= link_to('New Beer club', new_beer_club_path ) if current_user %>
+<%= link_to('New Beer club', new_beer_club_path, class:"btn btn-primary" ) if current_user %>
