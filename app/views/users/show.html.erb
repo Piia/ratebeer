@@ -2,11 +2,13 @@
 
 <p>
   	<h2><%= @user.username %></h2> 
+  	<% if current_user %>
   	<% if current_user.admin %>
         <% unless @user.active %>
             <button class="btn btn-primary; pointer-events: none">account frozen</button>
+    	<% end %>
     <% end %>
-        <% end %>
+    <% end %>
 </p>
 
 <p>
@@ -47,12 +49,14 @@
  	</div>
 </p>
 
+<% if current_user %>
 <% if current_user.admin %>
 	<% if @user.active %>
 	<%= link_to "Freeze account", toggle_activity_user_path(@user.id), method: :post, class: "btn btn-primary" %>
 	<% else %>
 	<%= link_to "Activate account", toggle_activity_user_path(@user.id), method: :post, class: "btn btn-primary" %>
 	<% end %>
+<% end %>
 <% end %>
 <% if @user == current_user %>
 	<%= edit_and_destroy_buttons(@user) %>

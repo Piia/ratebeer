@@ -15,10 +15,12 @@
       <tr>
         <td><%= link_to user.username, user %></td>
         <td>
+          <% if current_user %>
           <% if current_user.admin %>
             <% unless user.active %>
               <button class="btn btn-primary; pointer-events: none">account frozen</button>
             <% end %>
+          <% end %>
           <% end %>
         </td>
       </tr>
