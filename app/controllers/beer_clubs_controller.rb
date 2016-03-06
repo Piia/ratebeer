@@ -20,6 +20,7 @@ class BeerClubsController < ApplicationController
         @membership.beer_club = @beer_club
       end
     end
+    @memberships = Membership.where(beer_club: @beer_club)
   end
 
   # GET /beer_clubs/new
@@ -38,6 +39,8 @@ class BeerClubsController < ApplicationController
 
     respond_to do |format|
       if @beer_club.save
+        membership = Membership.create(beer_club: @beer_club, user: current_user, confirmed: true)
+        #current_user.memberships << membership
         format.html { redirect_to @beer_club, notice: 'Beer club was successfully created.' }
         format.json { render :show, status: :created, location: @beer_club }
       else

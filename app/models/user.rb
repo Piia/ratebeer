@@ -26,25 +26,42 @@ class User < ActiveRecord::Base
   	end
 
   	def favorite_style
-  		return nil if ratings.empty?
-  		styles = {}
-  		beers.each {|beer| styles[beer.style] = 0 if not styles.include?(beer.style)}
-  		ratings.each{|r| styles[r.beer.style] += r.score}
-  		styles.key(styles.values.max)
-  	end
+      favorite :style
+    end
 
-  	def favorite_brewery
-  		return nil if ratings.empty?
-  		breweries = {}
-  		beers.each {|beer| breweries[beer.brewery] = 0 if not breweries.include?(beer.brewery)}
-  		ratings.each{|r| breweries[r.beer.brewery] += r.score}
-  		breweries.key(breweries.values.max)
-  	end
+    def favorite_brewery
+      favorite :brewery
+    end
+
+    def favorite(category)
+      return nil if ratings.empty?
+
+      rated = ratings.map{ |r| r.beer.send(category) }.uniq
+      rated.sort_by { |item| -rating_of(category, item) }.first
+    end
+
+    def rating_of(category, item)
+      ratings_of = ratings.select{ |r| r.beer.send(category)==item }
+      ratings_of.map(&:score).inject(&:+) / ratings_of.count.to_f
+    end
 
     def self.top(n)
       sorted_by_rating_count_in_desc_order = User.all.sort_by{ |b| -(b.ratings.count||0) }
       sorted_by_rating_count_in_desc_order.first n
     end
+
+    #def self.create_with_omniauth(auth)
+    #  if User.find_by_username auth["info"]["name"]
+    #  auth_name = "#{auth["info"]["name"]}+"
+    #  else 
+    #    auth_name = auth["info"]["name"]
+    #  end
+    #  user = User.new provider: auth["provider"], uid: auth["uid"], username: auth_name
+    #  user.save(validate: false)
+    #end
+
+
+    
 
 
 end

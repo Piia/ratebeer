@@ -39,6 +39,10 @@ gem 'rspec-its'
 gem 'simplecov', require: false
 gem 'httparty'
 gem 'bootstrap-sass'
+gem 'jquery-turbolinks'
+gem 'rack-mini-profiler'
+gem 'omniauth'
+gem 'omniauth-github'
 
 group :development, :test do
   gem 'byebug'
@@ -52,6 +56,8 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'webmock'
+  gem 'database_cleaner'
+  gem 'selenium-webdriver'
 end
 
 

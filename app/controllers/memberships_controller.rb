@@ -74,6 +74,17 @@ class MembershipsController < ApplicationController
     end
   end
 
+  def toggle_activity
+    membership = Membership.find(params[:id])
+    membership.update_attribute :confirmed, (not membership.confirmed)
+
+    new_status = membership.confirmed? ? "confirmed" : "denied"
+
+    membership.destroy unless membership.confirmed
+
+    redirect_to :back, notice:"membership status changed to #{new_status}"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_membership

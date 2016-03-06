@@ -60,6 +60,8 @@
 
 <p><h2>Recent ratings</h2></p>
 
+<% cache 'recent ratings', skip_digest: true do %>
+
 <p>
 <div class="list-group">
  <% @recent_ratings.each do |rating| %>
@@ -67,5 +69,7 @@
  <% end %>
 </div>
 </p>
+
+<% end %>
 
 <br>

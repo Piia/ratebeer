@@ -6,10 +6,23 @@ Rails.application.routes.draw do
   resources :breweries
   resources :ratings, only: [:index, :new, :create, :destroy]
   resources :styles
-  
+  resource :session, only: [:new, :create, :destroy]
+
   root 'breweries#index'
 
-  resource :session, only: [:new, :create, :destroy]
+  get 'beerlist', to:'beers#list'
+  get 'ngbeerlist', to:'beers#nglist'
+  get 'brewerylist', to: 'breweries#list'
+  
+  get 'signup', to: 'users#new'
+  get 'signin', to: 'sessions#new'
+  delete 'signout', to: 'sessions#destroy'
+
+  get 'places', to: 'places#index'
+  post 'places', to:'places#search'
+  get 'places/:id', to:'places#show'
+
+  get 'auth/:provider/callback', to: 'sessions#create_oauth'
   
   resources :breweries do
     post 'toggle_activity', on: :member
@@ -19,15 +32,10 @@ Rails.application.routes.draw do
     post 'toggle_activity', on: :member
   end
 
-  
-  
-  get 'signup', to: 'users#new'
-  get 'signin', to: 'sessions#new'
-  delete 'signout', to: 'sessions#destroy'
+  resources :memberships do
+    post 'toggle_activity', on: :member
+  end
 
-  get 'places', to: 'places#index'
-  post 'places', to:'places#search'
-  get 'places/:id', to:'places#show'
 
   #get 'ratings', to: 'ratings#index'
   #get 'ratings/new', to: 'ratings#new'

@@ -11,11 +11,24 @@
 <p>
 	<strong>Members</strong>
   
-  	<div class="list-group">
- 		<% @beer_club.members.each do |member| %>
-   		<button type="button" class="list-group-item"><%= link_to member.username, user_path(member.id) %></button>
+  	<table class="table table-hover">
+  		<thead>
+  			<td>Name</td>
+  			<td></td>
+  		</thead>
+ 		<% @beer_club.memberships.each do |membership| %>
+	   		<tr>
+	   			<td><%= link_to membership.user.username, user_path(membership.user.id) %> </td>
+	   			<td><% if membership.confirmed and current_user.admin %>
+	   				<%= link_to "Dismiss", toggle_activity_membership_path(membership), method: :post, class: "btn btn-danger" %>
+	   			<% else %>
+	   				<%= link_to "Accept", toggle_activity_membership_path(membership), method: :post, class: "btn btn-primary" %>
+	   				<%= link_to "Deny", membership_path(membership), method: :delete, class: "btn btn-danger" %> 
+	   				
+	   			<% end %></td>
+	   		</tr>
  		<% end %>
- 	</div>
+ 	</table>
 
 </p>
 

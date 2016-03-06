@@ -108,14 +108,14 @@ RSpec.describe User, type: :model do
 	  	it "is the one brewery when there is only one rating" do
 	  		style = FactoryGirl.create :style
       		beer = create_beer(user, style, "noname", 10)
-      		expect(user.favorite_brewery).to eq("noname")
+      		expect(user.favorite_brewery.name).to eq("noname")
     	end
 
     	it "is highest rated brewery when there are many ratings" do
     		style = FactoryGirl.create :style
     		create_beers(user, style, "Koff", 10, 20, 15, 7, 9)
     		create_beers(user, style, "BrewDog", 1, 2, 1, 7, 9)
-    		expect(user.favorite_brewery).to eq("Koff")
+    		expect(user.favorite_brewery.name).to eq("Koff")
     	end
 
 	end
