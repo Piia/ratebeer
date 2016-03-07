@@ -22,6 +22,7 @@ class RatingsController < ApplicationController
       #@top_users = User.top 3
       Rails.cache.write("user top 3", User.top(3)) if fragment_exist?("user top 3")
       @top_users = Rails.cache.read "user top 3"
+      
   	end
 
    	def new
